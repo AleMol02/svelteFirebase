@@ -1,0 +1,6 @@
+/sveltebase/node_modules/
+/sveltebase/public/build/
+/node_modules/
+/public/build/
+
+.DS_Store
