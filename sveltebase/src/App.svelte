@@ -15,7 +15,7 @@
 
 <main>
 	<!-- on:evento cuando se envie el formulario-->
-	<form on:submit>
+	<form on:submit={onSubmitHandler}>
 		<!-- bind:value=variable cada cambio del input se sincorniza con la variable previamente declarada en el código -->
 		<input
 			bind:value={product.nombre}
