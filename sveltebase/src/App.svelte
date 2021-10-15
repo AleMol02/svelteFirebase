@@ -9,7 +9,7 @@
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
-		console.log(e);
+		console.log(product);
 	};
 </script>
 
