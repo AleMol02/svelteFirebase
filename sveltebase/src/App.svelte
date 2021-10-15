@@ -6,10 +6,16 @@
 		categoria: "",
 		imagenURL: "",
 	};
+
+	const onSubmitHandler = (e) => {
+		console.log(e);
+	};
 </script>
 
 <main>
-	<form>
+	<!-- on:evento cuando se envie el formulario-->
+	<form on:submit>
+		<!-- bind:value=variable cada cambio del input se sincorniza con la variable previamente declarada en el código -->
 		<input
 			bind:value={product.nombre}
 			id="nombre"
@@ -34,7 +40,9 @@
 			<option value="cajas">Cajas ATX y otras</option>
 			<option value="mb">Tarjetas Base</option>
 			<option value="ram">RAM</option>
-			<option value="rl">Refrijeración Líquida (las de aire son muy feas)</option>
+			<option value="rl"
+				>Refrijeración Líquida (las de aire son muy feas)</option
+			>
 			<option value="rgb">Lucecitas</option>
 		</select>
 		<button> Guardar </button>
