@@ -1,26 +1,43 @@
 <script>
+	let product = {
+		id: "",
+		nombre: "",
+		descripcion: "",
+		categoria: "",
+		imagenURL: "",
+	};
 </script>
 
 <main>
 	<form>
 		<input
-			id="nombre-producto"
+			bind:value={product.nombre}
+			id="nombre"
 			type="text"
 			placeholder="Nombre del producto"
 		/>
 		<textarea
-			id="descripcion-producto"
+			bind:value={product.descripcion}
+			id="descripcion"
 			rows="3"
 			placeholder="Descripción del producto"
 		/>
 		<input
+			bind:value={product.imagenURL}
 			type="url"
-			id="imagen-url-producto"
+			id="imagen-url"
 			placeholder="https://amazon.com/..."
 		/>
-		<button>
-			Guardar
-		</button>
+		<select bind:value={product.categoria} id="categoria">
+			<option value="gpu">GPUs</option>
+			<option value="cpu">CPUs</option>
+			<option value="cajas">Cajas ATX y otras</option>
+			<option value="mb">Tarjetas Base</option>
+			<option value="ram">RAM</option>
+			<option value="rl">Refrijeración Líquida (las de aire son muy feas)</option>
+			<option value="rgb">Lucecitas</option>
+		</select>
+		<button> Guardar </button>
 	</form>
 </main>
 
