@@ -8,6 +8,7 @@
 	};
 
 	const onSubmitHandler = (e) => {
+		e.preventDefault();
 		console.log(e);
 	};
 </script>
