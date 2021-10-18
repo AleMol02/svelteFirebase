@@ -14,6 +14,9 @@
 </script>
 
 <main>
+	<h1>Esto deberia ser un H1</h1>
+	<button>Esto deberia ser un boton</button>
+	<h2>Esto un h2</h2>
 	<!-- on:evento cuando se envie el formulario-->
 	<form on:submit={onSubmitHandler}>
 		<!-- bind:value=variable cada cambio del input se sincorniza con la variable previamente declarada en el código -->
