@@ -5,6 +5,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   plugins: [
+    require('@tailwindcss/forms'),
   ],
   purge: {
     content: [
