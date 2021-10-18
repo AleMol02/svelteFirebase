@@ -4,6 +4,7 @@
 /sveltebase/public/*.js
 /node_modules/
 /public/build/
+/public/*.css
 
 .DS_Store
 sveltebase/package-lock.json
