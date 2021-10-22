@@ -1,4 +1,5 @@
 <script>
+	// Producto a añadir / modificar
 	let product = {
 		id: "",
 		nombre: "",
@@ -7,9 +8,14 @@
 		imagenURL: "",
 	};
 
+	// Listado de productos
+	let products = [
+
+	];
+
+	// Handler principal
 	const onSubmitHandler = (e) => {
-		e.preventDefault();
-		console.log(product);
+		
 	};
 </script>
 
@@ -20,13 +26,14 @@
 		<div class="grid grid-cols-2 gap-4">
 			<!-- Listado de Elementos-->
 			<div class="bg-gray-100">
+				<!-- Aqui deberia de recorrer un array e imprimir elementos -->
 
 			</div>
 			<!-- FIN Listado de Elementos-->
 			<!-- Caja principal formulario-->
 			<div class="p-4 shadow-md rounded-md text-left">
 				<!-- on:evento cuando se envie el formulario-->
-				<form on:submit={onSubmitHandler}>
+				<form on:submit|preventDefault={onSubmitHandler}>
 					<!-- bind:value=variable cada cambio del input se sincorniza con la variable previamente declarada en el código -->
 					<label for="nombre">Nombre del producto</label>
 					<input
@@ -62,6 +69,7 @@
 						<option value="rgb">Lucecitas</option>
 					</select>
 					<hr class="my-2" />
+					<!-- Este boton debe de ser dual, si se añade o se modifica un elemento cambiara tanto el contenido como la función a la que va a llamar o a ejecutar...-->
 					<button
 						class="ml-5 bg-indigo-200 py-2 px-3 border border-indigo-500 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-indigo-500 hover:text-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:text-gray-700 focus:bg-indigo-200"
 					>
