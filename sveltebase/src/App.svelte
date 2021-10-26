@@ -1,11 +1,17 @@
 <script>
 	// DB
 	import { db } from "./firebase";
-	import { collection, getDocs } from "firebase/firestore";
+	import {
+		collection,
+		getDocs,
+		doc,
+		addDoc,
+		updateDoc,
+		deleteDoc,
+	} from "firebase/firestore";
 
 	// Producto a añadir / modificar
 	let product = {
-		id: "",
 		nombre: "",
 		descripcion: "",
 		categoria: "",
@@ -20,9 +26,10 @@
 		const querySnapshot = await getDocs(collection(db, "articulos"));
 		let docs = [];
 		querySnapshot.forEach((doc) => {
-			docs.push({...doc.data(), id:doc.id});
+			docs.push({ ...doc.data(), id: doc.id });
 		});
 		productos = [...docs];
+		console.log(productos);
 	};
 	loadData();
 
@@ -30,7 +37,6 @@
 
 	const vaciarFormulario = () => {
 		product = {
-			id: "",
 			nombre: "",
 			descripcion: "",
 			categoria: "",
@@ -39,16 +45,15 @@
 		editar = false;
 	};
 
-	const añadirElemento = () => {
-		//product.id = productos.length + 1;
-		//productos = productos.concat(Object.assign({}, product));
-		db.collection("articulos").doc().set(product);
+	const añadirElemento = async () => {
+		await addDoc(collection(db, "articulos"), product);
+		await loadData();
 		vaciarFormulario();
 	};
 
-	const guardarElemento = () => {
-		const pi = productos.findIndex((p) => p.id === product.id);
-		productos[pi] = Object.assign({}, product);
+	const guardarElemento = async () => {
+		await updateDoc(doc(db, "articulos", product.id), product);
+		await loadData();
 		vaciarFormulario();
 	};
 
@@ -57,10 +62,9 @@
 		editar = true;
 	};
 
-	const eliminarElemento = (id) => {
-		productos = productos.filter((p) => {
-			if (p.id !== id) return p;
-		});
+	const eliminarElemento = async (id) => {
+		await deleteDoc(doc(db, "articulos", id));
+		await loadData();
 	};
 
 	// Handler principal
@@ -202,11 +206,47 @@
 					</select>
 					<hr class="my-2" />
 					<!-- Este boton debe de ser dual, si se añade o se modifica un elemento cambiara tanto el contenido como la función a la que va a llamar o a ejecutar...-->
-					<button
-						class="ml-5 bg-indigo-200 py-2 px-3 border border-indigo-500 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-indigo-500 hover:text-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:text-gray-700 focus:bg-indigo-200"
-					>
-						Guardar
-					</button>
+					{#if editar}
+						<button
+							class="ml-5 bg-indigo-200 py-2 px-3 border border-indigo-500 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-indigo-500 hover:text-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:text-gray-700 focus:bg-indigo-200 flex items-center"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 mr-1"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+								/>
+							</svg>
+							Editar
+						</button>
+					{:else}
+						<button
+							class="ml-5 bg-green-200 py-2 px-3 border border-green-500 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-green-500 hover:text-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-green-300 focus:text-gray-700 focus:bg-green-200  flex items-center"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 mr-1"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								/>
+							</svg>
+							Añadir
+						</button>
+					{/if}
 				</form>
 			</div>
 			<!-- Fin Caja principal formulario-->
