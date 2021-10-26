@@ -1,4 +1,8 @@
 <script>
+	// DB
+	import { db } from "./firebase";
+	import { collection, getDocs } from "firebase/firestore";
+
 	// Producto a añadir / modificar
 	let product = {
 		id: "",
@@ -8,29 +12,19 @@
 		imagenURL: "",
 	};
 
-	// Listado de productos
-	let productos = [
-		{
-			id: 1,
-			nombre: "Ryzen 5800X",
-			categoria: "CPU",
-			
-		},
-		{
-			id: 2,
-			nombre: "Radeon 6900XT",
-			categoria: "GPU",
-			imagenURL:
-				"https://asset.msi.com/resize/image/global/product/product_160733074395dc40bc076168ef2688dc9fa5070c49.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-		},
-		{
-			id: 3,
-			nombre: "Corsair Crystal Series 570x",
-			categoria: "ATX",
-			imagenURL:
-				"https://www.corsair.com/medias/sys_master/images/images/h64/h24/8896001343518/-CC-9011110-WW-Gallery-570X-RGB-WHT-01.png",
-		},
-	];
+	// Listado de productos (Ahora la cargamos de BD en firestore)
+	let productos = [];
+
+	// Cargamos datos de bd
+	const loadData = async () => {
+		const querySnapshot = await getDocs(collection(db, "articulos"));
+		let docs = [];
+		querySnapshot.forEach((doc) => {
+			docs.push({...doc.data(), id:doc.id});
+		});
+		productos = [...docs];
+	};
+	loadData();
 
 	let editar = false;
 
@@ -46,13 +40,14 @@
 	};
 
 	const añadirElemento = () => {
-		product.id = productos.length + 1;
-		productos = productos.concat(Object.assign({}, product));
+		//product.id = productos.length + 1;
+		//productos = productos.concat(Object.assign({}, product));
+		db.collection("articulos").doc().set(product);
 		vaciarFormulario();
 	};
 
 	const guardarElemento = () => {
-		const pi = productos.findIndex(p => p.id === product.id);
+		const pi = productos.findIndex((p) => p.id === product.id);
 		productos[pi] = Object.assign({}, product);
 		vaciarFormulario();
 	};
@@ -63,9 +58,9 @@
 	};
 
 	const eliminarElemento = (id) => {
-		productos = productos.filter(p => {
-			if(p.id!==id) return p;
-		})
+		productos = productos.filter((p) => {
+			if (p.id !== id) return p;
+		});
 	};
 
 	// Handler principal
@@ -92,7 +87,9 @@
 					<div
 						class="bg-white rounded-lg sahdow-lg overflow-hidden border m-1 flex flex-col md:flex-row"
 					>
-						<div class="w-full mx-2 h-80 bg-gray-100 rounded-md p-2 my-2">
+						<div
+							class="w-full mx-2 h-80 bg-gray-100 rounded-md p-2 my-2"
+						>
 							{#if p.imagenURL}
 								<img
 									class="object-center object-contain w-full h-full"
