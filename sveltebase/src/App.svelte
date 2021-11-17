@@ -13,10 +13,15 @@
 	// Producto a añadir / modificar
 	let product = {
 		nombre: "",
-		descripcion: "",
-		categoria: "",
-		imagenURL: "",
+		apellidos:"",
+		correo: "",
+		categoria:""
 	};
+
+	let cat = {
+		cate:""
+	};
+
 
 	// Listado de productos (Ahora la cargamos de BD en firestore)
 	let productos = [];
@@ -37,22 +42,24 @@
 
 	const vaciarFormulario = () => {
 		product = {
-			nombre: "",
-			descripcion: "",
-			categoria: "",
-			imagenURL: "",
+		nombre: "",
+		apellidos:"",
+		correo: "",
+		categoria:""
 		};
+
+
 		editar = false;
 	};
 
 	const añadirElemento = async () => {
-		await addDoc(collection(db, "articulos"), product);
+		await addDoc(collection(db, "articulos"), product, cat);
 		await loadData();
 		vaciarFormulario();
 	};
 
 	const guardarElemento = async () => {
-		await updateDoc(doc(db, "articulos", product.id), product);
+		await updateDoc(doc(db, "articulos", product.id), product, cat);
 		await loadData();
 		vaciarFormulario();
 	};
@@ -80,6 +87,7 @@
 </script>
 
 <main>
+	<h1>PÁGINA DE GESTIÓN DE EMPLEADOS</h1>
 	<!-- Container APP-->
 	<div class="container mx-auto">
 		<!-- Grid de 2 Columnas con una separación 4 (1rem) -->
@@ -92,37 +100,21 @@
 						class="bg-white rounded-lg sahdow-lg overflow-hidden border m-1 flex flex-col md:flex-row"
 					>
 						<div
-							class="w-full mx-2 h-80 bg-gray-100 rounded-md p-2 my-2"
-						>
-							{#if p.imagenURL}
-								<img
-									class="object-center object-contain w-full h-full"
-									src={p.imagenURL}
-									alt="thumbnail"
-								/>
-							{:else}
-								<img
-									class="object-center object-contain w-full h-full"
-									src="images/no-product.jpg"
-									alt="thumbnail"
-								/>
-							{/if}
-						</div>
-						<div
-							class="w-full md:w-3/5 text-left p-6 md:p-4 space-y-2"
+							class="w-full md:w-3/5 text-left p-6 md:p-4 space-y-2" 
 						>
 							<p class="text-xl text-gray-700 font-bold">
 								{p.nombre}
 							</p>
 							<p class="text-base text-gray-400 font-normal">
+								{p.apellidos}
+							</p>
+							<p class="text-base text-gray-400 font-normal">
+								{p.correo}
+							</p>
+							<p class="text-base text-gray-400 font-normal">
 								{p.categoria}
 							</p>
-							<p
-								class="text-base leading-relaxed text-gray-500 font-normal"
-							>
-								{p.descripcion || "Sin descripción"}
-							</p>
-							<div class="flex justify-start space-x-2">
+							<div class="flex justify-start space-x-2" >
 								<button
 									class="ml-5 bg-blue-200 py-1 px-2 border border-blue-500 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-blue-500 hover:text-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-blue-300 focus:text-gray-700 focus:bg-blue-200"
 									on:click={editarElemento(p)}
@@ -167,43 +159,38 @@
 			</div>
 			<!-- FIN Listado de Elementos-->
 			<!-- Caja principal formulario-->
-			<div class="p-4 shadow-md rounded-md text-left">
+			<div class="p-4 shadow-md rounded-md text-left" id="menu">
 				<!-- on:evento cuando se envie el formulario-->
 				<form on:submit|preventDefault={onSubmitHandler}>
 					<!-- bind:value=variable cada cambio del input se sincorniza con la variable previamente declarada en el código -->
-					<label for="nombre">Nombre del producto</label>
+					<label for="nombre">Datos del empleado</label>
 					<input
 						bind:value={product.nombre}
 						id="nombre"
 						type="text"
-						placeholder="Nombre del producto"
+						placeholder="Nombre..."
 					/>
-					<label for="descripcion">Descripción</label>
-					<textarea
-						bind:value={product.descripcion}
-						id="descripcion"
-						rows="3"
-						placeholder="Descripción del producto"
-					/>
-					<label for="imagen-url">Imagen del producto</label>
 					<input
-						bind:value={product.imagenURL}
-						type="url"
-						id="imagen-url"
-						placeholder="https://amazon.com/..."
+					bind:value={product.apellidos}
+					id="apellidos"
+					type="text"
+					placeholder="Apellidos..."
+				/>
+				<input
+						bind:value={product.correo}
+						id="correo"
+						type="text"
+						placeholder="Correo..."
+						
 					/>
 					<label for="categoria">Categoría</label>
-					<select bind:value={product.categoria} id="categoria">
-						<option value="GPU">GPUs</option>
-						<option value="CPU">CPUs</option>
-						<option value="ATX">Cajas ATX y otras</option>
-						<option value="Placas Base">Placas Base</option>
-						<option value="RAM">RAM</option>
-						<option value="RL"
-							>Refrijeración Líquida (las de aire son muy feas)</option
-						>
-						<option value="rgb">Lucecitas</option>
-					</select>
+					<input
+						bind:value={product.categoria}
+						id="categoria"
+						type="text"
+						placeholder="Categoria..."
+						
+					/>
 					<hr class="my-2" />
 					<!-- Este boton debe de ser dual, si se añade o se modifica un elemento cambiara tanto el contenido como la función a la que va a llamar o a ejecutar...-->
 					{#if editar}
@@ -255,6 +242,3 @@
 	</div>
 	<!-- FIN Container APP-->
 </main>
-
-<style>
-</style>
