@@ -8,13 +8,21 @@ import { getFirestore } from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB1uLdwK81XjO4u14xXiJVkeelKWS9EKvI",
-  authDomain: "sveltedaw2.firebaseapp.com",
-  projectId: "sveltedaw2",
-  storageBucket: "sveltedaw2.appspot.com",
-  messagingSenderId: "821390868147",
-  appId: "1:821390868147:web:2b099bb3f49c9d8acffac6"
+
+    apiKey: "AIzaSyCvPFYTImmq8YP4XWdvLStU4yoQKRCrkcA",
+
+    authDomain: "svelte-3feaf.firebaseapp.com",
+
+    projectId: "svelte-3feaf",
+
+    storageBucket: "svelte-3feaf.appspot.com",
+
+    messagingSenderId: "682697744806",
+
+    appId: "1:682697744806:web:f28343f0952f94e4d26f67"
+
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
